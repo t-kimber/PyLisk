@@ -1,4 +1,4 @@
-PyLisk
+PyLisk: A Python library to interact with the Lisk blockchain.
 ==============================
 <p align="center">
   <img src="docs/_static/pylisk_logo.png" width="100"/>
