@@ -1,0 +1,21 @@
+name: test
+channels:
+  - defaults
+dependencies:
+    # Base depends
+  - python>=3.6
+  - pip
+  # Package dependencies
+  - pynacl
+  - requests
+  - protobuf
+    # Testing
+  - pytest
+  - pytest-cov
+  - codecov
+  # Formatting
+  - black
+    # Pip-only installs
+  #- pip:
+  #  - codecov
+
