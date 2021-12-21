@@ -7,6 +7,8 @@ Main command line interface for PyLisk.
 import argparse
 import subprocess
 
+from .utils.user_input import ask_passphrase, ask_confirmation
+
 
 def main():
 
@@ -63,8 +65,35 @@ def main():
 
 
 def main_send(args):
+    """
+    # TODO
+    """
     print(args)
+
+    passphrase = ask_passphrase()
+
+    print(
+        f"\nSummary of transaction:\n"
+        f"=======================\n"
+        f"{'Receiver of the transaction:' : <30}{args.receiver}\n"
+        f"{'Amount the receiver will get:' : <30}{args.amount} Lisk\n"
+    )
+
+    confirmation = ask_confirmation("send")
 
 
 def main_vote(args):
-    print(args)
+    """
+    # TODO
+    """
+
+    passphrase = ask_passphrase()
+
+    print(
+        f"\nSummary of transaction:\n"
+        f"=======================\n"
+        f"{'Delegate address:' : <30}{args.delegate}\n"
+        f"{'Amount the delegate will get:' : <30}{args.amount} Lisk\n"
+    )
+
+    confirmation = ask_confirmation("vote")
