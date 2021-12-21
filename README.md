@@ -20,34 +20,39 @@ Prerequisites: Anaconda + Git.
 ```console
 git clone https://github.com/t-kimber/pylisk.git
 ```
-
 2. Change directory:
 ```console
 cd pylisk
 ```
 3. Create the conda environment:
-
 ```console
 conda env create -n pylisk -f devtools/conda-envs/test_env.yaml
 ```
-
 4. Activate the environment:
-
 ```console
 conda activate pylisk
 ```
-
 5. Install the pylisk package:
 ```console
 pip install -e .
 ```
+6. Verify the PyLisk installation:
+```console
+pylisk -h
+```
 
-### Example
+### Examples
 
-To create a transaction, run the following:
+To _send a transaction_, run the following:
 
 ```console
-python pylisk/create_transaction.py
+pylisk send -h
+```
+
+To _vote for a delegate_, run the following:
+
+```console
+pylisk vote -h
 ```
 
 ### Copyright
