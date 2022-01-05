@@ -3,10 +3,12 @@ Utility functions.
 
 """
 
+import getpass
+
 
 def ask_passphrase():
     """
-    Asks the user for their passphrase
+    Asks the user for their passphrase.
 
     Parameters
     ----------
@@ -17,7 +19,36 @@ def ask_passphrase():
     str :
         The passphrase of the user.
     """
-    return str(input("Please give your passphrase: "))
+
+    print("Please enter passphrase")
+    passphrase_1 = getpass.getpass(prompt="Passphrase: ")
+
+    print("Please re-enter passphrase")
+    passphrase_2 = getpass.getpass(prompt="Passphrase: ")
+
+    if passphrase_1 != passphrase_2:
+        raise Exception(f"Passphrases do not match. Aborting")
+
+    else:
+        return passphrase_1
+
+
+def check_passphrase_validity(passphrase):
+    """
+    Checks whether the passphrase is valid or not.
+
+    Parameters
+    ----------
+    passphrase : str
+        The passphrase to be checked.
+
+    Returns
+    -------
+    bool :
+        Whether the passphrase is valid or not.
+    """
+    print("By default, the passphrase is valid.\n")
+    return True
 
 
 def ask_confirmation(action):
