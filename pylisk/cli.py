@@ -7,7 +7,11 @@ Main command line interface for PyLisk.
 import argparse
 import subprocess
 
-from .utils.user_input import ask_passphrase, ask_confirmation
+from .utils.user_input import (
+    ask_passphrase,
+    ask_confirmation,
+    check_passphrase_validity,
+)
 
 
 def main():
@@ -64,18 +68,22 @@ def main_send(args):
     """
     # TODO
     """
-    print(args)
 
     passphrase = ask_passphrase()
+    validity_passphrase = check_passphrase_validity(passphrase)
+    while validity_passphrase:
+        print("Starting session...")
+        print("To log out of your session, press CTRL + C")
+        print(
+            f"\nSummary of transaction:\n"
+            f"=======================\n"
+            f"{'Receiver of the transaction:' : <30}{args.receiver}\n"
+            f"{'Amount the receiver will get:' : <30}{args.amount} Lisk\n"
+        )
 
-    print(
-        f"\nSummary of transaction:\n"
-        f"=======================\n"
-        f"{'Receiver of the transaction:' : <30}{args.receiver}\n"
-        f"{'Amount the receiver will get:' : <30}{args.amount} Lisk\n"
-    )
-
-    confirmation = ask_confirmation("send")
+        confirmation = ask_confirmation("send")
+        # create_transaction()
+        validity_passphrase = False
 
 
 def main_vote(args):
