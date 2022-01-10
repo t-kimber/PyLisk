@@ -268,7 +268,9 @@ _BALANCETRANSFER = _descriptor.Descriptor(
         ),
     ],
     extensions=[],
-    nested_types=[_BALANCETRANSFER_ASSET,],
+    nested_types=[
+        _BALANCETRANSFER_ASSET,
+    ],
     enum_types=[],
     serialized_options=None,
     is_extendable=False,

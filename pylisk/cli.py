@@ -55,7 +55,11 @@ def main():
     vote_subparser = subparsers.add_parser("vote")
 
     vote_subparser.add_argument(
-        "--delegate", dest="delegate", type=str, help="The delegate to vote for", required=True,
+        "--delegate",
+        dest="delegate",
+        type=str,
+        help="The delegate to vote for",
+        required=True,
     )
     vote_subparser.add_argument(
         "--amount",

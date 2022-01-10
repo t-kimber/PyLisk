@@ -30,11 +30,13 @@ class Account:
         """
         if "address" in info:
             ans = request(
-                "https://testnet-service.lisk.com/api/v2/", f"accounts?address={info['address']}",
+                "https://testnet-service.lisk.com/api/v2/",
+                f"accounts?address={info['address']}",
             )[0]
         elif "name" in info:
             ans = request(
-                "https://testnet-service.lisk.com/api/v2/", f"accounts?username={info['name']}",
+                "https://testnet-service.lisk.com/api/v2/",
+                f"accounts?username={info['name']}",
             )[0]
         elif "public_key" in info:
             ans = request(
