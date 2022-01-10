@@ -89,4 +89,3 @@ def check_positivity(numeric_input):
     if value <= 0:
         raise argparse.ArgumentTypeError(f"{numeric_input} must be positive.")
     return value
-
