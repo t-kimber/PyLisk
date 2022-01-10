@@ -4,6 +4,7 @@ Utility functions.
 """
 
 import getpass
+import argparse
 
 
 def ask_passphrase():
@@ -78,3 +79,14 @@ def ask_confirmation(action):
     else:
         print(f"Please choose either 'y' or 'n' for {action} confirmation: ")
         ask_confirmation(action)
+
+
+def check_positivity(numeric_input):
+    """
+    # TODO
+    """
+    value = float(numeric_input)
+    if value <= 0:
+        raise argparse.ArgumentTypeError(f"{numeric_input} must be positive.")
+    return value
+

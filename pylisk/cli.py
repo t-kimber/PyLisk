@@ -11,6 +11,7 @@ from .utils.user_input import (
     ask_passphrase,
     ask_confirmation,
     check_passphrase_validity,
+    check_positivity,
 )
 
 
@@ -33,9 +34,20 @@ def main():
     send_subparser.add_argument(
         "--amount",
         dest="amount",
-        type=int,
+        # type=float,
+        # choices=xrange(0, 4),
+        # type=int,
         help="The amount [in Lisk] the receiver of the transaction is getting",
         required=True,
+        type=check_positivity,
+    )
+    send_subparser.add_argument(
+        "--net",
+        dest="net",
+        type=str,
+        choices=["test", "main"],
+        help="The net to apply the transaction, testnet or mainnet.",
+        default="test",
     )
     send_subparser.set_defaults(func=main_send)
 
@@ -43,15 +55,26 @@ def main():
     vote_subparser = subparsers.add_parser("vote")
 
     vote_subparser.add_argument(
-        "--delegate", dest="delegate", type=str, help="The delegate to vote for", required=True,
+        "--delegate",
+        dest="delegate",
+        type=str,
+        help="The delegate to vote for",
+        required=True,
     )
-
     vote_subparser.add_argument(
         "--amount",
         dest="amount",
         type=int,
         help="The amount the delegate will receive",
         required=True,
+    )
+    vote_subparser.add_argument(
+        "--net",
+        dest="net",
+        type=str,
+        help="The net to apply the transaction, testnet or mainnet.",
+        choices=["test", "main"],
+        default="test",
     )
     vote_subparser.set_defaults(func=main_vote)
 
@@ -72,17 +95,17 @@ def main_send(args):
     passphrase = ask_passphrase()
     validity_passphrase = check_passphrase_validity(passphrase)
     while validity_passphrase:
-        print("Starting session...")
+        print(f"Starting session on {args.net} net...")
         print("To log out of your session, press CTRL + C")
         print(
-            f"\nSummary of transaction:\n"
+            f"\nSummary of transaction on the {args.net} net:\n"
             f"=======================\n"
             f"{'Receiver of the transaction:' : <30}{args.receiver}\n"
             f"{'Amount the receiver will get:' : <30}{args.amount} Lisk\n"
         )
 
         confirmation = ask_confirmation("send")
-        # create_transaction()
+        # create_sending_transaction(net, receiver, holder, amount)
         validity_passphrase = False
 
 
