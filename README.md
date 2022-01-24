@@ -32,11 +32,11 @@ conda env create -n pylisk -f devtools/conda-envs/test_env.yaml
 ```console
 conda activate pylisk
 ```
-5. Install the pylisk package:
+5. Install the `pylisk` package:
 ```console
 pip install -e .
 ```
-6. Verify the PyLisk installation:
+6. Verify the installation:
 ```console
 pylisk -h
 ```
