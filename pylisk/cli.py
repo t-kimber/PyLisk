@@ -34,9 +34,6 @@ def main():
     send_subparser.add_argument(
         "--amount",
         dest="amount",
-        # type=float,
-        # choices=xrange(0, 4),
-        # type=int,
         help="The amount [in Lisk] the receiver of the transaction is getting",
         required=True,
         type=check_positivity,
@@ -64,9 +61,9 @@ def main():
     vote_subparser.add_argument(
         "--amount",
         dest="amount",
-        type=int,
         help="The amount the delegate will receive",
         required=True,
+        type=check_positivity,
     )
     vote_subparser.add_argument(
         "--net",
@@ -99,7 +96,7 @@ def main_send(args):
         print("To log out of your session, press CTRL + C")
         print(
             f"\nSummary of transaction on the {args.net} net:\n"
-            f"=======================\n"
+            f"=======================================\n"
             f"{'Receiver of the transaction:' : <30}{args.receiver}\n"
             f"{'Amount the receiver will get:' : <30}{args.amount} Lisk\n"
         )
@@ -115,12 +112,17 @@ def main_vote(args):
     """
 
     passphrase = ask_passphrase()
+    validity_passphrase = check_passphrase_validity(passphrase)
+    while validity_passphrase:
+        print(f"Starting session on {args.net} net...")
+        print("To log out of your session, press CTRL + C")
+        print(
+            f"\nSummary of transaction on the {args.net} net:\n"
+            f"=======================================\n"
+            f"{'Delegate address:' : <30}{args.delegate}\n"
+            f"{'Amount for the delegate:' : <30}{args.amount} Lisk\n"
+        )
 
-    print(
-        f"\nSummary of transaction:\n"
-        f"=======================\n"
-        f"{'Delegate address:' : <30}{args.delegate}\n"
-        f"{'Amount the delegate will get:' : <30}{args.amount} Lisk\n"
-    )
-
-    confirmation = ask_confirmation("vote")
+        confirmation = ask_confirmation("vote")
+        # create_voting_transaction(net, receiver, holder, amount)
+        validity_passphrase = False
