@@ -1,5 +1,6 @@
 name: test
 channels:
+  - conda-forge
   - defaults
 dependencies:
     # Base depends
@@ -9,10 +10,15 @@ dependencies:
   - pynacl
   - requests
   - protobuf
+  - jupyterlab
     # Testing
   - pytest
   - pytest-cov
   - codecov
+  # Docs
+  - sphinx
+  - sphinx_rtd_theme
+  - nbsphinx
   # Formatting
   - black
     # Pip-only installs

@@ -10,8 +10,8 @@ Welcome to PyLisk's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   getting_started
-   api
+   installation
+   examples/transactions
 
 
 
