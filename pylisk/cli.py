@@ -86,7 +86,12 @@ def main():
 
 def main_send(args):
     """
-    # TODO
+    Send a transaction.
+
+    Parameters
+    ----------
+    args : argsparse.Namespace
+        Command-line interface arguments.
     """
 
     passphrase = ask_passphrase()
@@ -108,7 +113,12 @@ def main_send(args):
 
 def main_vote(args):
     """
-    # TODO
+    Vote for a delegate.
+
+    Parameters
+    ----------
+    args : argsparse.Namespace
+        Command-line interface arguments.
     """
 
     passphrase = ask_passphrase()
