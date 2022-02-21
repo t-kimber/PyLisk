@@ -12,7 +12,12 @@ from .utils.user_input import (
     ask_confirmation,
     check_passphrase_validity,
     check_positivity,
+    compute_seed_from_passphrase,
+    compute_publickey_from_seed,
+    addressToBinary,
 )
+from .account import Account
+from .transaction import BalanceTransferTransaction
 
 
 def main():
@@ -96,9 +101,15 @@ def main_send(args):
 
     passphrase = ask_passphrase()
     validity_passphrase = check_passphrase_validity(passphrase)
+
     while validity_passphrase:
         print(f"Starting session on {args.net} net...")
         print("To log out of your session, press CTRL + C")
+
+        seed = compute_seed_from_passphrase(passphrase)
+        public_key = compute_publickey_from_seed(seed)
+        account = Account.from_info({"public_key": public_key.hex()})
+
         print(
             f"\nSummary of transaction on the {args.net} net:\n"
             f"=======================================\n"
@@ -107,7 +118,15 @@ def main_send(args):
         )
 
         confirmation = ask_confirmation("send")
-        # create_sending_transaction(net, receiver, holder, amount)
+        amount_in_beddows = int(args.amount * 10 ** 8)
+        transaction = BalanceTransferTransaction(
+            account.nonce, public_key, addressToBinary(args.receiver), amount_in_beddows
+        )
+        net_id = bytes.fromhex(
+            "15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c"
+        )
+        transaction.sign(seed, net_id)
+        transaction.send(args.net)
         validity_passphrase = False
 
 

@@ -1,5 +1,6 @@
 import pylisk.schema.balanceTransfer_pb2 as balanceTrs
 from nacl.signing import SigningKey
+import requests
 
 
 class BalanceTransferTransaction:
@@ -7,7 +8,9 @@ class BalanceTransferTransaction:
     Creates a transfer transaction between two accounts.
     """
 
-    def __init__(self, nonce, sender_public_key, recipient_bin_add, amount, fee=210000, data=""):
+    def __init__(
+        self, nonce, sender_public_key, recipient_bin_add, amount, fee=210000, data=""
+    ):
         if (
             not isinstance(nonce, int)
             or not isinstance(sender_public_key, bytes)
@@ -18,7 +21,11 @@ class BalanceTransferTransaction:
         ):
             raise TypeError("Respect argument types.")
 
-        if len(data) > 64 or len(recipient_bin_add) != 20 or len(sender_public_key) != 32:
+        if (
+            len(data) > 64
+            or len(recipient_bin_add) != 20
+            or len(sender_public_key) != 32
+        ):
             raise ValueError("Argument has inappropriate value.")
 
         self.moduleID = 2
@@ -90,12 +97,19 @@ class BalanceTransferTransaction:
 
         Returns
         -------
-        tuple of (32 bytes, 64 bytes) :
-            The public_key and signature.
+        None
         """
         signing_key = SigningKey(seed)
-        public_key = signing_key.verify_key._key
         signing_bytes = self.get_signing_bytes(net_id)
         signature = signing_key.sign(signing_bytes).signature
         self.signatures.append(signature)
-        return public_key, signature
+
+    def send(self, net):
+        """
+        #TODO
+        """
+        if net == "test":
+            ans = requests.post(
+                f"https://testnet-service.lisk.com/api/v2/transactions?transaction={self.serialize().hex()}"
+            )
+            print(ans.json())

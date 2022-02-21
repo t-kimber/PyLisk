@@ -5,6 +5,54 @@ Utility functions.
 
 import getpass
 import argparse
+import hashlib
+from nacl.signing import SigningKey
+import base64
+
+
+def addressToBinary(address):
+    """
+
+    # TODO: check checksum
+
+    Notes
+    -----
+    Thankful for https://github.com/dakk/lisk-pool3 for this code
+    Taken from :
+    https://github.com/dakk/lisk-pool3/blob/a9179f6f059bf2e578a5b8cd582d197d2cbac6a0/liskpool3.py#L54
+    """
+    B32_STD = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+    B32_DICT = "zxvcpmbn3465o978uyrtkqew2adsjhfg"
+
+    # Check lsk
+    if address[0:3] != "lsk":
+        raise ValueError("Address must start with 'lsk'.")
+
+    # Checksum
+    # sum(address[3:])
+
+    s = ""
+    for x in address[3::][:-6]:
+        s += B32_STD[B32_DICT.index(x)]
+    s = base64.b32decode(s)
+
+    return s
+
+
+def compute_publickey_from_seed(seed):
+    """
+    # TODO
+    """
+    public_key = SigningKey(seed).verify_key._key
+    return public_key
+
+
+def compute_seed_from_passphrase(passphrase):
+    """
+    # TODO
+    """
+
+    return hashlib.sha256(passphrase.encode()).digest()
 
 
 def ask_passphrase():
