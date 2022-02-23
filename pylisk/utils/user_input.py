@@ -1,5 +1,5 @@
 """
-Utility functions.
+Utility functions for user input.
 
 """
 
@@ -83,8 +83,19 @@ def ask_confirmation(action):
 
 def check_positivity(numeric_input):
     """
-    # TODO
+    Verifies if an input is greater or equal than zero.
+
+    Parameters
+    ----------
+    numeric_input : int or float
+        Any numeric value.
+
+    Returns
+    -------
+    value : float
+        The positive numeric value.
     """
+
     value = float(numeric_input)
     if value <= 0:
         raise argparse.ArgumentTypeError(f"{numeric_input} must be positive.")

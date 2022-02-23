@@ -13,6 +13,15 @@ from .utils.user_input import (
     check_passphrase_validity,
     check_positivity,
 )
+from .utils.utils import (
+    compute_seed_from_passphrase,
+    compute_publickey_from_seed,
+    addressToBinary,
+    lisk_to_beddows,
+    net_to_net_id,
+)
+from .account import Account
+from .transaction import BalanceTransferTransaction
 
 
 def main():
@@ -96,18 +105,30 @@ def main_send(args):
 
     passphrase = ask_passphrase()
     validity_passphrase = check_passphrase_validity(passphrase)
+
     while validity_passphrase:
         print(f"Starting session on {args.net} net...")
         print("To log out of your session, press CTRL + C")
+
+        seed = compute_seed_from_passphrase(passphrase)
+        public_key = compute_publickey_from_seed(seed)
+        account = Account.from_info({"public_key": public_key.hex()})
+        amount_in_beddows = lisk_to_beddows(args.amount)
+        transaction = BalanceTransferTransaction(
+            account.nonce, public_key, addressToBinary(args.receiver), amount_in_beddows
+        )
+        net_id = net_to_net_id(args.net)
+        transaction.sign(seed, net_id)
+
         print(
             f"\nSummary of transaction on the {args.net} net:\n"
             f"=======================================\n"
             f"{'Receiver of the transaction:' : <30}{args.receiver}\n"
             f"{'Amount the receiver will get:' : <30}{args.amount} Lisk\n"
         )
+        _ = ask_confirmation("send")
 
-        confirmation = ask_confirmation("send")
-        # create_sending_transaction(net, receiver, holder, amount)
+        transaction.send(args.net)
         validity_passphrase = False
 
 

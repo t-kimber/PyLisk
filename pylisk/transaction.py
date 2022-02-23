@@ -1,5 +1,6 @@
 import pylisk.schema.balanceTransfer_pb2 as balanceTrs
 from nacl.signing import SigningKey
+import requests
 
 
 class BalanceTransferTransaction:
@@ -90,12 +91,19 @@ class BalanceTransferTransaction:
 
         Returns
         -------
-        tuple of (32 bytes, 64 bytes) :
-            The public_key and signature.
+        None
         """
         signing_key = SigningKey(seed)
-        public_key = signing_key.verify_key._key
         signing_bytes = self.get_signing_bytes(net_id)
         signature = signing_key.sign(signing_bytes).signature
         self.signatures.append(signature)
-        return public_key, signature
+
+    def send(self, net):
+        """
+        #TODO
+        """
+        if net == "test":
+            ans = requests.post(
+                f"https://testnet-service.lisk.com/api/v2/transactions?transaction={self.serialize().hex()}"
+            )
+            print(ans.json())
