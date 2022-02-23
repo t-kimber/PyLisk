@@ -12,9 +12,13 @@ from .utils.user_input import (
     ask_confirmation,
     check_passphrase_validity,
     check_positivity,
+)
+from .utils.utils import (
     compute_seed_from_passphrase,
     compute_publickey_from_seed,
     addressToBinary,
+    lisk_to_beddows,
+    net_to_net_id,
 )
 from .account import Account
 from .transaction import BalanceTransferTransaction
@@ -109,6 +113,12 @@ def main_send(args):
         seed = compute_seed_from_passphrase(passphrase)
         public_key = compute_publickey_from_seed(seed)
         account = Account.from_info({"public_key": public_key.hex()})
+        amount_in_beddows = lisk_to_beddows(args.amount)
+        transaction = BalanceTransferTransaction(
+            account.nonce, public_key, addressToBinary(args.receiver), amount_in_beddows
+        )
+        net_id = net_to_net_id(args.net)
+        transaction.sign(seed, net_id)
 
         print(
             f"\nSummary of transaction on the {args.net} net:\n"
@@ -116,16 +126,8 @@ def main_send(args):
             f"{'Receiver of the transaction:' : <30}{args.receiver}\n"
             f"{'Amount the receiver will get:' : <30}{args.amount} Lisk\n"
         )
+        _ = ask_confirmation("send")
 
-        confirmation = ask_confirmation("send")
-        amount_in_beddows = int(args.amount * 10 ** 8)
-        transaction = BalanceTransferTransaction(
-            account.nonce, public_key, addressToBinary(args.receiver), amount_in_beddows
-        )
-        net_id = bytes.fromhex(
-            "15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c"
-        )
-        transaction.sign(seed, net_id)
         transaction.send(args.net)
         validity_passphrase = False
 
