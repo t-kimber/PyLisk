@@ -55,6 +55,11 @@ To _vote for a delegate_, run the following:
 pylisk vote -h
 ```
 
+Pylisk in action
+
+[![Pylisk in action](http://img.youtube.com/vi/BRkzQJrDomI/0.jpg)](https://www.youtube.com/watch?v=BRkzQJrDomI "Pylisk in action")
+
+
 ### Copyright
 
 Copyright (c) 2021, Talia B. Kimber
