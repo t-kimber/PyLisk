@@ -90,7 +90,7 @@ def lisk_to_beddows(amount):
         The amount in Beddows.
     """
 
-    return int(amount * 10 ** 8)
+    return int(amount * 10**8)
 
 
 def compute_publickey_from_seed(seed):
